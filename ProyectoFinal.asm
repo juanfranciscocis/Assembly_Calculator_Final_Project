@@ -1,3 +1,17 @@
+ 
+
+
+
+
+; OPERACIONES
+
+; SUMA, RESTA, MULTIPLICACION, DIVISION, LOGARITMO BASE 10, SENO, COSENO, TANGENTE, INVERSAS, POTENCIA 
+; RANDALL LOG 10, MODULO
+; EDWIN   POTENCIA, RAIZ     
+; DANIELA INVERSAS          
+; JUAN FRANCISCO SENO,COSENO, TANGENTE
+ 
+ 
 
 .data
     mostrarMenu db '===============.MENU.===============',13,10
@@ -5,20 +19,55 @@
                 db '2. Resta',13,10
                 db '3. Division',13,10
                 db '4. Multiplicacion',13,10
-                db '5. Salir',13,10,13,10
-				db 'Seleccione una Opcion -->$',13,10
+                db '5. Logaritmo' , 13,10
+                db '6. Modulo' , 13,10
+                db '7. Potencia' , 13,10
+                db '8. Raiz' , 13,10
+                db '9. Seno' , 13,10
+                db '10. Coseno' , 13,10
+                db '11. Tangente' , 13,10
+                db '12. Arcsin' , 13,10
+                db '13. Arccos' , 13,10
+                db '14. Arctan' , 13,10
+                db '15. Salir',13,10,13,10
+				db 'Seleccione una Opcion -->$',13,10  
+				
 	new_line db 10,13, " $"
+	
 	msg_op_suma db 10,13, 'SUMA','$'
 	msg_op_resta db 10,13, 'RESTA','$'
-	msg_op_div db 10,13, 'DIVISION','$'
 	msg_op_multi db 10,13, 'MULTIPLICACION','$'
+	msg_op_div db 10,13, 'DIVISION','$'
+	msg_op_log db 10,13, 'LOGARITMO','$'      
+	msg_op_modulo db 10,13, 'MODULO','$'
+	msg_op_pot db 10,13, 'POTENCIA','$'
+	msg_op_raiz db 10,13, 'RAIZ','$'
+	msg_op_sen db 10,13, 'SENO','$'
+	msg_op_cos db 10,13, 'COSENO','$'
+	msg_op_tan db 10,13, 'TANGENTE','$'
+	msg_op_arcsin db 10,13, 'ARCSIN','$'
+	msg_op_arccos db 10,13, 'ARCCOS','$'
+	msg_op_arctan db 10,13, 'ARCTAN','$'
+	
+	
+	
     num1 db ?
 	num2 db ?
-    msg_num db 10,13,'Proporciona un num: ', 	'$'
+    msg_num db 10,13,'Proporciona un numero: ', 	'$'
     msg_suma db 10,13,'Suma: = ',				'$'
 	msg_resta db 10,13,'Resta: = ',				'$'
     msg_div db 10,13,'Division: = ',			'$'
     msg_multi db 10,13,'Multiplicacion: = ',	'$'
+    msg_log db 10,13, 'LOGARITMO: = ','$'      
+	msg_modulo db 10,13, 'MODULO: = ','$'
+	msg_pot db 10,13, 'POTENCIA: = ','$'
+	msg_raiz db 10,13, 'RAIZ: = ','$'
+	msg_sen db 10,13, 'SENO: = ','$'
+	msg_cos db 10,13, 'COSENO: = ','$'
+	msg_tan db 10,13, 'TANGENTE: = ','$'
+	msg_arcsin db 10,13, 'ARCSIN: = ','$'
+	msg_arccos db 10,13, 'ARCCOS:= ','$'
+	msg_arctan db 10,13, 'ARCTAN = ','$'
     decenas db ?
     unidades db ?
 ; MACROS
