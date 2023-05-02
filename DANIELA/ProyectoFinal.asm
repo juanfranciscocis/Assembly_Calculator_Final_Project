@@ -80,16 +80,44 @@ imprimir macro dato
 endm
 
 pedirNum macro dato
-	imprimir dato
-	; Leer varios caracteres y alojarlos en dato
-	mov ah,01h
-	int 21h
-	; Convertir de ASCII a binario
-	sub al,30h
-	mov dato,al
+    mov ah, 0      ; set AH to 0
+    mov cx, 0      ; initialize digit counter to 0
+    push dx        ; save DX to the stack
+    push bx        ; save BX to the stack
+    push ax        ; save AX to the stack
+    lea dx, dato   ; load the address of the input buffer into DX
+InputNo:
+    int 16h        ; read a key press using interrupt 16h
+    cmp al, 0dh    ; compare the key press to 0dh (enter key)
+    je FormNo      ; if it's the enter key, go to FormNo
+    sub al, 30h    ; subtract 30h from the ASCII value to convert to decimal
+    call ViewNo    ; display the input on the screen
+    mov ah, 0      ; set AH to 0
+    push ax        ; push the input value to the stack
+    inc cx         ; increment digit counter
+    jmp InputNo    ; repeat until enter key is pressed
+FormNo:
+    pop ax         ; take the last input from the stack
+    push dx        ; save DX to the stack
+    mov bx, 1      ; initialize BX to 1
+FormatNo:
+    mul bx         ; multiply AX by BX
+    pop dx         ; restore DX from the stack
+    add dx, ax     ; add the result to DX
+    mov ax, bx     ; move the value of BX into AX
+    mov bx, 10     ; set BX to 10
+    push dx        ; save DX to the stack
+    mul bx         ; multiply BX by 10
+    pop dx         ; restore DX from the stack
+    mov bx, ax     ; move the result into BX
+    dec cx         ; decrement digit counter
+    cmp cx, 0      ; check if digit counter is 0
+    jne FormatNo   ; if not, repeat format number function
+    mov dato, dx   ; store the formatted number in the input buffer
+    pop ax         ; restore AX from the stack
+    pop bx         ; restore BX from the stack
+    pop dx         ; restore DX from the stack
 endm
-
-
 
 
 

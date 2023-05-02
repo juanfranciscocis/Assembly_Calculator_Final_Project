@@ -70,6 +70,7 @@
 	msg_arctan db 10,13, 'ARCTAN = ','$'
     decenas db ?
     unidades db ?
+	decenasPorTen db ?
 ; MACROS
 
 ; Este macro imprime un mensaje
@@ -79,15 +80,30 @@ imprimir macro dato
 	int 21h ; Interrupci�n servicio de video
 endm
 
-pedirNum macro dato
-	imprimir dato
-	; Leer varios caracteres y alojarlos en dato
-	mov ah,01h
-	int 21h
-	; Convertir de ASCII a binario
-	sub al,30h
-	mov dato,al
+pedirNum MACRO dato
+	
+	imprimir msg_num
+    ; Lee el primer número
+    mov ah, 01h   ; Función de entrada desde el teclado
+    int 21h       ; Llamada al servicio de interrupción de BIOS
+    sub al, 30h   ; Convierte el caracter ASCII en un número
+    mov decenas, al    ; Guarda el primer dígito en el registro BL
+
+    ; Lee el segundo número
+    mov ah, 01h   ; Función de entrada desde el teclado
+    int 21h       ; Llamada al servicio de interrupción de BIOS
+    sub al, 30h   ; Convierte el caracter ASCII en un número
+    mov unidades, al    ; Guarda el segundo dígito en el registro BH
+
+    ; Une los dos dígitos en un solo número
+	mov al, decenas    ; Mueve el primer dígito al registro AL
+	mov decenasPorTen, 10    ; Mueve el valor 10 al registro BL
+	mul decenasPorTen       
+	add al, unidades    ; Suma BH a AL
+	mov dato, al  ; Guarda el número en la variable data
+
 endm
+
 
 
 
