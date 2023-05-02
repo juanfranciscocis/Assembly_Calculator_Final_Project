@@ -70,6 +70,9 @@
 	msg_arctan db 10,13, 'ARCTAN = ','$'
     decenas db ?
     unidades db ?
+	decenasPorTen db ?
+	op_menu db ?
+	seno_res db ?
 ; MACROS
 
 ; Este macro imprime un mensaje
@@ -79,15 +82,30 @@ imprimir macro dato
 	int 21h ; Interrupci�n servicio de video
 endm
 
-pedirNum macro dato
-	imprimir dato
-	; Leer varios caracteres y alojarlos en dato
-	mov ah,01h
-	int 21h
-	; Convertir de ASCII a binario
-	sub al,30h
-	mov dato,al
+pedirNum MACRO dato
+	
+	imprimir msg_num
+    ; Lee el primer número
+    mov ah, 01h   ; Función de entrada desde el teclado
+    int 21h       ; Llamada al servicio de interrupción de BIOS
+    sub al, 30h   ; Convierte el caracter ASCII en un número
+    mov decenas, al    ; Guarda el primer dígito en el registro BL
+
+    ; Lee el segundo número
+    mov ah, 01h   ; Función de entrada desde el teclado
+    int 21h       ; Llamada al servicio de interrupción de BIOS
+    sub al, 30h   ; Convierte el caracter ASCII en un número
+    mov unidades, al    ; Guarda el segundo dígito en el registro BH
+
+    ; Une los dos dígitos en un solo número
+	mov al, decenas    ; Mueve el primer dígito al registro AL
+	mov decenasPorTen, 10    ; Mueve el valor 10 al registro BL
+	mul decenasPorTen       
+	add al, unidades    ; Suma unidades a AL
+	mov dato, al  ; Guarda el número en la variable data
+
 endm
+
 
 
 
@@ -197,6 +215,21 @@ endm
 
 operacionSeno macro ;Juan
 		imprimir msg_sen
+		; given num1 in degrees calculate sin(num1)
+		; using the Taylor series expansion
+		mov al, num1
+		mov bl, 180
+		div bl
+		mov bl, al
+		mov al, 180
+		mul bl
+		sub al, num1
+		mov bl, al
+		mov al, 180
+		mul bl
+		mov num1, al
+
+
 endm
 
 operacionCoseno macro ; Juan
@@ -244,10 +277,8 @@ Inicio:
 Menu:
 	imprimir new_line
 	imprimir mostrarMenu
-	mov ah,01h ; Pide caracter
-	int 21h
-	xor ah,ah
-	sub al,30h
+	pedirNum op_menu
+	mov al,op_menu
 	; Salto condicional jump equals opci�n n saltar si es igual a la opcion n
 	cmp al,1
 	je Suma
