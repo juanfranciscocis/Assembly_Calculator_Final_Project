@@ -71,6 +71,8 @@
     decenas db ?
     unidades db ?
 	decenasPorTen db ?
+	op_menu db ?
+	seno_res db ?
 ; MACROS
 
 ; Este macro imprime un mensaje
@@ -99,7 +101,7 @@ pedirNum MACRO dato
 	mov al, decenas    ; Mueve el primer dígito al registro AL
 	mov decenasPorTen, 10    ; Mueve el valor 10 al registro BL
 	mul decenasPorTen       
-	add al, unidades    ; Suma BH a AL
+	add al, unidades    ; Suma unidades a AL
 	mov dato, al  ; Guarda el número en la variable data
 
 endm
@@ -213,6 +215,21 @@ endm
 
 operacionSeno macro ;Juan
 		imprimir msg_sen
+		; given num1 in degrees calculate sin(num1)
+		; using the Taylor series expansion
+		mov al, num1
+		mov bl, 180
+		div bl
+		mov bl, al
+		mov al, 180
+		mul bl
+		sub al, num1
+		mov bl, al
+		mov al, 180
+		mul bl
+		mov num1, al
+
+
 endm
 
 operacionCoseno macro ; Juan
@@ -260,10 +277,8 @@ Inicio:
 Menu:
 	imprimir new_line
 	imprimir mostrarMenu
-	mov ah,01h ; Pide caracter
-	int 21h
-	xor ah,ah
-	sub al,30h
+	pedirNum op_menu
+	mov al,op_menu
 	; Salto condicional jump equals opci�n n saltar si es igual a la opcion n
 	cmp al,1
 	je Suma
