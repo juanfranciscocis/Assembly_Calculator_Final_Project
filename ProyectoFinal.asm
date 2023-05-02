@@ -76,16 +76,25 @@
 imprimir macro dato
     mov ah,09h
     lea dx,dato ; Cargar dato
-	int 21h ; Interrupción servicio de video
+	int 21h ; Interrupciï¿½n servicio de video
 endm
 
 pedirNum macro dato
-	imprimir msg_num
+	imprimir dato
+	; Leer varios caracteres y alojarlos en dato
 	mov ah,01h
 	int 21h
+	; Convertir de ASCII a binario
 	sub al,30h
 	mov dato,al
 endm
+
+
+
+
+
+
+
 
 operacionSuma macro
 		imprimir msg_suma
@@ -170,6 +179,51 @@ operacionDivision macro
         int 21h
 endm
 
+operacionLogaritmo macro ;Randall
+		imprimir msg_log
+endm
+
+operacionModulo macro ;Randall
+		imprimir msg_modulo
+endm
+
+operacionPotencia macro ; Edwin
+		imprimir msg_pot
+endm
+
+operacionRaiz macro ;Edwin
+		imprimir msg_raiz
+endm
+
+operacionSeno macro ;Juan
+		imprimir msg_sen
+endm
+
+operacionCoseno macro ; Juan
+		imprimir msg_cos
+endm
+
+operacionTangente macro ; Juan
+		imprimir msg_tan
+endm
+
+operacionArcsin macro ; Daniela
+		imprimir msg_arcsin
+
+endm
+
+operacionArccos macro ; Daniela
+		imprimir msg_arccos
+
+endm
+
+operacionArctan macro ; Daniela
+		imprimir msg_arctan
+
+endm
+
+
+
 
 
 
@@ -194,7 +248,7 @@ Menu:
 	int 21h
 	xor ah,ah
 	sub al,30h
-	; Salto condicional jump equals opción n saltar si es igual a la opcion n
+	; Salto condicional jump equals opciï¿½n n saltar si es igual a la opcion n
 	cmp al,1
 	je Suma
 	cmp al,2
@@ -204,8 +258,28 @@ Menu:
 	cmp al,4
 	je Multiplicacion
 	cmp al,5
+	je Logaritmo
+	cmp al,6
+	je Modulo
+	cmp al,7
+	je Potencia
+	cmp al,8
+	je Raiz
+	cmp al,9
+	je Seno
+	cmp al,10
+	je Coseno
+	cmp al,11
+	je Tangente
+	cmp al,12
+	je Arcsin
+	cmp al,13
+	je Arccos
+	cmp al,14
+	je Arctan
+	cmp al,15
 	je Salir
-	jmp Menu ; Si es alguna otra opción, mostrar el menu de nuevo
+	jmp Menu ; Si es alguna otra opciï¿½n, mostrar el menu de nuevo
 Salir:
 	mov ah,04ch
 	int 21h
@@ -242,5 +316,76 @@ Multiplicacion:
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
     jmp Menu
+Logaritmo:
+	imprimir msg_op_log
+	pedirNum num1
+	operacionLogaritmo
+	int 21h
+	jmp Menu
+Modulo:
+	imprimir msg_op_modulo
+	pedirNum num1
+	pedirNum num2
+	operacionModulo
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
+Potencia:
+	imprimir msg_op_pot
+	pedirNum num1
+	pedirNum num2
+	operacionPotencia
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
+Raiz:
+	imprimir msg_op_raiz
+	pedirNum num1
+	operacionRaiz
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
+Seno:
+	imprimir msg_op_sen
+	pedirNum num1
+	operacionSeno
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
+Coseno:
+	imprimir msg_op_cos
+	pedirNum num1
+	operacionCoseno
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
+Tangente:
+	imprimir msg_op_tan
+	pedirNum num1
+	operacionTangente
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
+Arcsin:
+	imprimir msg_op_arcsin
+	pedirNum num1
+	operacionArcsin
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
+Arccos:
+	imprimir msg_op_arccos
+	pedirNum num1
+	operacionArccos
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
+Arctan:
+	imprimir msg_op_arctan
+	pedirNum num1
+	operacionArctan
+	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
+	int 21h
+	jmp Menu
 .exit
 end Inicio
