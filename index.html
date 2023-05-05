@@ -15221,6 +15221,41 @@ mejor los fundamentos de la informática.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Macro">Macro<a class="anchor-link" href="#Macro">&#182;</a></h4><p>Una macro es una secuencia de instrucciones que se definen una sola vez y se pueden invocar varias veces en diferentes partes de un programa. Una macro es similar a una función en otros lenguajes de programación, pero en lugar de tener una llamada de función, se tiene una llamada de macro.</p>
+<p>Cuando se define una macro, se especifica un nombre para la macro y se incluye una lista de instrucciones que se deben ejecutar cuando se llama la macro. Los parámetros también se pueden especificar en la definición de la macro, y estos parámetros se pueden utilizar en las instrucciones de la macro.</p>
+<p>Cuando se llama a una macro, los parámetros se pasan a la macro y se ejecutan las instrucciones de la macro en el lugar donde se realizó la llamada. En la mayoría de los ensambladores, las macros se definen utilizando la directiva &quot;macro&quot; y se terminan con la directiva &quot;endm&quot;.</p>
+<p>Las macros se utilizan para hacer que el código sea más legible, más fácil de mantener y más fácil de reutilizar. Al definir una macro para una secuencia de instrucciones común, se puede utilizar la macro en lugar de escribir la secuencia de instrucciones repetidamente en diferentes partes del programa.</p>
+<p>Además, las macros también pueden utilizarse para definir instrucciones personalizadas que no están disponibles en el conjunto de instrucciones del procesador. De esta manera, se pueden crear macros para instrucciones complejas o que realizan múltiples operaciones para simplificar el código y hacerlo más legible.</p>
+<ul>
+<li>Un ejemplo de como se define y usa una macro en el lenguaje de ensamblador:</li>
+</ul>
+<pre><code>; Definición de la macro
+macro add_numbers num1, num2
+    mov ax, num1
+    add ax, num2
+    mov result, ax
+endm
+
+; Llamada a la macro
+add_numbers 10, 20
+
+; Variables para almacenar los resultados
+result dw 0
+</code></pre>
+<ul>
+<li>Este ejemplo muestra la sintaxis básica de una macro en ensamblador, donde se define la macro con la directiva &quot;macro&quot;, se llama a la macro con los parámetros entre paréntesis, se utiliza una variable para almacenar el resultado.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="Suma">Suma<a class="anchor-link" href="#Suma">&#182;</a></h4>
 </div>
 </div>
@@ -15324,6 +15359,134 @@ mejor los fundamentos de la informática.</p>
 <li>Para el desarrollo de las funciones trigonométricas se queria utilizar la serie de Taylor para calcular el valor de cada función. La serie de Taylor es una aproximación de una función mediante una serie de potencias, y se define como:</li>
 </ul>
 <p><img src="../Assembly_Calculator_Final_Project/IMAGENES_PAGINA_WEB/serieTaylor.png" alt="taylor" /></p>
+<ul>
+<li><p>Llegamos a la problematica de que la serie de Taylor es una serie muy compleja de implementar en Assembly, hoy en dia se usan librerias para calcular el valor de las funciones trigonométricas, pero Assembly 8086 no contaba con estas librerias para hacer los calculos, por lo que se tuvo que buscar otra forma de calcular el valor de las funciones trigonométricas.</p>
+</li>
+<li><p>Se decidio utilizar entonces trigonometria basica para calcular el seno, coseno y tangente. Para esto se utilizo el triangulo unitario, el cual es un triangulo rectangulo con un cateto de longitud 1, y se utilizo el teorema de pitagoras para calcular el otro cateto, y asi poder calcular el seno, coseno y tangente de un angulo.</p>
+</li>
+</ul>
+<p><img src="../Assembly_Calculator_Final_Project/IMAGENES_PAGINA_WEB/sohcahtoa.png" alt="triangulo" /></p>
+<ul>
+<li>Tal como se muestra en la imagen de arriba se puede calcular el seno, coseno y tangente de un angulo utilizando trigonometria basica, y para esto se utilizo el siguiente codigo en Assembly 8086:</li>
+</ul>
+<p><code>Al usuario se le pide que ingrese el valor de los catetos y la hipotenusa del triangulo unitario, y tiene una opcion para calcular seno, coseno y tangente</code></p>
+<p>Para pedir los valores de los catetos y la hipotenusa se utilizo el siguiente codigo:</p>
+<pre><code>pedirSenoCosTan MACRO msg , dato
+
+    imprimir msg
+    ; Lee el primer número
+    mov ah, 01h   ; Función de entrada desde el teclado
+    int 21h       ; Llamada al servicio de interrupción de BIOS
+    sub al, 30h   ; Convierte el caracter ASCII en un número
+    mov decenas, al    ; Guarda el primer dígito en el registro BL
+
+    ; Lee el segundo número
+    mov ah, 01h   ; Función de entrada desde el teclado
+    int 21h       ; Llamada al servicio de interrupción de BIOS
+    sub al, 30h   ; Convierte el caracter ASCII en un número
+    mov unidades, al    ; Guarda el segundo dígito en el registro BH
+
+    ; Une los dos dígitos en un solo número
+    mov al, decenas    ; Mueve el primer dígito al registro AL
+    mov decenasPorTen, 10    ; Mueve el valor 10 al registro BL
+    mul decenasPorTen       
+    add al, unidades    ; Suma unidades a AL
+    mov dato, al  ; Guarda el número en la variable data
+
+
+
+endm 
+</code></pre>
+<ul>
+<li>El usuario ingresa un numero del 0 al 99, y se guarda en la variable dato. Como usamos macros para realizar funciones en nuestro codigo, esta variable dato despues se guarda en un registro, como el siguiente:</li>
+</ul>
+<pre><code>seno_res db ?
+</code></pre>
+<ul>
+<li>el registro seno es quien ahora guarda los valores de los catetos y la hipotenusa del triangulo unitario, y se utiliza para calcular el seno, coseno y tangente de un angulo.</li>
+</ul>
+<p>El codigo de Assembly se ve de la siguiente manera para calcular el seno:</p>
+<pre><code>operacionSeno macro
+imprimir msg_sen
+
+xor ax,ax
+mov al, num1
+mov bl,num2
+div bl
+aam
+
+mov decenas,ah
+mov unidades,al
+
+add decenas,30h
+add unidades,30h
+; imprimir valores
+mov ah,02h
+mov dl,decenas
+int 21h
+
+mov ah,02h
+mov dl,unidades
+int 21h
+endm
+</code></pre>
+<ul>
+<li>El codigo de Assembly se ve de la siguiente manera para calcular el coseno:</li>
+</ul>
+<pre><code>operacionCoseno macro
+imprimir msg_cos
+
+xor ax,ax
+mov al, num1
+mov bl,num2
+div bl
+aam
+
+mov decenas,ah
+mov unidades,al
+
+add decenas,30h
+add unidades,30h
+; imprimir valores
+mov ah,02h
+mov dl,decenas
+int 21h
+
+mov ah,02h
+mov dl,unidades
+int 21h
+endm
+</code></pre>
+<ul>
+<li>El codigo de Assembly se ve de la siguiente manera para calcular la tangente:</li>
+</ul>
+<pre><code>operacionTangente macro
+imprimir msg_tan
+
+xor ax,ax
+mov al, num1
+mov bl,num2
+div bl
+aam
+
+mov decenas,ah
+mov unidades,al
+
+add decenas,30h
+add unidades,30h
+; imprimir valores
+mov ah,02h
+mov dl,decenas
+int 21h
+
+mov ah,02h
+mov dl,unidades
+int 21h
+endm
+</code></pre>
+<ul>
+<li>Como podemos ver en los tres casos se utiliza codigo similar pues se realizan operaciones similares, lo unico que cambia es la operacion que se realiza para calcular el seno, coseno y tangente.</li>
+</ul>
 
 </div>
 </div>
@@ -15336,6 +15499,21 @@ mejor los fundamentos de la informática.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h5 id="Inversa-de-Seno,-Coseno-y-Tangente">Inversa de Seno, Coseno y Tangente<a class="anchor-link" href="#Inversa-de-Seno,-Coseno-y-Tangente">&#182;</a></h5>
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Problemas-encontrados">Problemas encontrados<a class="anchor-link" href="#Problemas-encontrados">&#182;</a></h4><ul>
+<li>Debido al tiempo solo se pudo implementar operaciones con numeros desde el 0 al 99, y no se pudo implementar operaciones con numeros negativos.</li>
+<li>Lamentablemente debido a lo complejo que es el lenguaje de ensamblador, y a que no se contaba con librerias para realizar los calculos de las funciones trigonométricas, y como se menciono anteriormente, la serie de Taylor es muy compleja de implementar en Assembly 8086.</li>
+</ul>
+
 </div>
 </div>
 </div>
