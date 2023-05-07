@@ -210,21 +210,21 @@ endm
 
 operacionPotencia macro ; Edwin
 		imprimir msg_pot
-        MOV cl, num2            ;Numero de ciclos
+        mov cx, num2            ;Numero de ciclos
+		mov al, num1 
         producto:
-			MOV al, num1 
-			MOV al, potenciaVar
-			MUL bl
-			MOV potenciaVar, al 
-			LOOP producto 
+			mov bl, potenciaVar
+			mul bl
+			mov potenciaVar, al 
+			loop producto 
     
-        MOV al, potenciaVar    ;Pone el valor final en AL
-        AAM                    ;Ajuste en Multiplicacion 
-        MOV num1, al
-        MOV num2, ah
+        mov al, potenciaVar    ;Pone el valor final en AL
+        aam                    ;Ajuste en Multiplicacion 
+        mov num1, al
+        mov num2, ah
         
         
-        MOV potenciaVar, 0001h ;Vuelve a poner el valor 
+        mov potenciaVar, 1 ;Vuelve a poner el valor 
         
         int 21h  
 endm

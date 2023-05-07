@@ -80,7 +80,13 @@
 	op_menu db ?
 	seno_res db ?
 	pul db ?
+	potenciaVar db 1
+
 ; MACROS
+
+
+
+
 
 ; Este macro imprime un mensaje
 imprimir macro dato
@@ -299,6 +305,43 @@ endm
 
 operacionPotencia macro ; Edwin
 		imprimir msg_pot
+	;Potencia
+	MOV cl, num2            ;Numero de ciclos
+    loopstartP:
+        MOV AL, num1 
+        MOV BL, potenciaVar
+        MUL BL
+        MOV potenciaVar, AL
+		dec cl 
+        cmp cl, 0
+		jne loopstartP 
+    
+    MOV AL, potenciaVar    ;Pone el valor final en AL
+    AAM                    ;Ajuste en Multiplicacion 
+
+
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+
+		
+
+
+
+
+
+
+
 endm
 
 operacionRaiz macro ;Edwin
