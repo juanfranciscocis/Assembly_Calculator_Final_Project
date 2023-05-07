@@ -19,7 +19,7 @@
                 db '2. Resta',13,10
                 db '3. Division',13,10
                 db '4. Multiplicacion',13,10
-                db '5. Logaritmo' , 13,10
+                db '5. Factorial' , 13,10
                 db '6. Modulo' , 13,10
                 db '7. Potencia' , 13,10
                 db '8. Raiz' , 13,10
@@ -38,7 +38,7 @@
 	msg_op_resta db 10,13, 'RESTA','$'
 	msg_op_multi db 10,13, 'MULTIPLICACION','$'
 	msg_op_div db 10,13, 'DIVISION','$'
-	msg_op_log db 10,13, 'LOGARITMO','$'      
+	msg_op_fac db 10,13, 'FACTORIAL','$'      
 	msg_op_modulo db 10,13, 'MODULO','$'
 	msg_op_pot db 10,13, 'POTENCIA','$'
 	msg_op_raiz db 10,13, 'RAIZ','$'
@@ -61,7 +61,7 @@
 	msg_resta db 10,13,'Resta: = ',				'$'
     msg_div db 10,13,'Division: = ',			'$'
     msg_multi db 10,13,'Multiplicacion: = ',	'$'
-    msg_log db 10,13, 'LOGARITMO: = ','$'      
+    msg_fac db 10,13, 'FACTORIAL: = ','$'      
 	msg_modulo db 10,13, 'MODULO: = ','$'
 	msg_pot db 10,13, 'POTENCIA: = ','$'
 	msg_raiz db 10,13, 'RAIZ: = ','$'
@@ -229,8 +229,10 @@ operacionDivision macro
         int 21h
 endm
 
-operacionLogaritmo macro ;Randall
-		imprimir msg_log
+operacionFactorial macro ;Randall
+
+        
+
 endm
 
 operacionModulo macro ;Randall
@@ -366,36 +368,31 @@ operacionTangente macro ; Juan
         int 21h
 endm
 
-; MODIFICACION 1 ------------------------->
-operacionCosecante macro ;Daniela
-		imprimir msg_csc
+operacionCosecante macro ; Daniela
+	imprimir msg_csc
 
-		xor ax, ax
-		mov al, num2
-		mov bl, num1
-		mov cl, 90
-		sub cl, bl
-		mov bl, cl
-		mov cl, 180
-		div bl
-		mov bl, 1
-		div bl
-		aam
+	xor ax, ax
+	mov al, num1
+	mov bl, num2
+	div bl
+	aam
 
-		mov decenas, ah
-		mov unidades, al
+	mov decenas, ah
+	mov unidades, al
 
-		add decenas, 30h
-		add unidades, 30h
-		; IMPRESIÓN DE VALORES:
-		mov ah, 02h
-		mov dl, decenas
-		int 21h
+	add decenas, 30h
+	add unidades, 30h
 
-		mov ah, 02h
-		mov dl, unidades
-		int 21h
-	endm
+	; IMPRESION DE VALORES:
+	mov ah, 02h
+	mov dl, decenas
+	int 21h
+
+	mov ah, 02h
+	mov dl, unidades
+	int 21h
+
+endm
 
 ; MODIFICACION 2 ------------------------->
 operacionSecante macro ; Daniela
@@ -428,25 +425,27 @@ endm
 operacionCotangente macro ; Daniela
 	imprimir msg_cot
 
-	xor ax,ax
-	mov al, num2
-	mov bl,num1
+	xor ax, ax
+	mov al, num1
+	mov bl, num2
 	div bl
 	aam
-	
-	mov decenas,ah
-	mov unidades,al
-	
-	add decenas,30h
-	add unidades,30h
+
+	mov decenas, ah
+	mov unidades, al
+
+	add decenas, 30h
+	add unidades, 30h
+
 	; IMPRESION DE VALORES:
-	mov ah,02h
-	mov dl,decenas
+	mov ah, 02h
+	mov dl, decenas
 	int 21h
-	
-	mov ah,02h
-	mov dl,unidades
+
+	mov ah, 02h
+	mov dl, unidades
 	int 21h
+
 endm
 
 
@@ -483,7 +482,7 @@ Menu:
 	cmp al,4
 	je Multiplicacion
 	cmp al,5
-	je Logaritmo
+	je Factorial
 	cmp al,6
 	je Modulo
 	cmp al,7
@@ -541,10 +540,11 @@ Multiplicacion:
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
     jmp Menu
-Logaritmo:
-	imprimir msg_op_log
+Factorial:
+	imprimir msg_op_fac
 	pedirNum num1
-	operacionLogaritmo
+	operacionFactorial
+	mov ah,01
 	int 21h
 	jmp Menu
 Modulo:
