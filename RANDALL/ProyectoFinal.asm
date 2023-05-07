@@ -202,14 +202,13 @@ endm
 operacionLogaritmo macro ;Randall 
         xor ax,ax
         imprimir new_line
-        mov bl, num1   ; move num1 to CL
-        mov al, 1      ; set AL to 1
-        loopstart:
-        mul bl      ; Multiply AL by CL
-        dec bl      ; Decrement CL
+        mov bl, num1   
+        mov al, 1      
+        mul bl      
+        dec bl      
         cmp bl,0
         
-        jne loopstart   ; Jump to loopstart if CL is not zero
+        jne loopstart   
          
         aam 
         mov decenas,ah
