@@ -45,9 +45,9 @@
 	msg_op_sen db 10,13, 'SENO, FAVOR INGRESAR EL OPUESTO DEL ANGULO Y LA HIPOTENUSA','$'
 	msg_op_cos db 10,13, 'COSENO, FAVOR INGRESAR EL ADYACENTE DEL ANGULO Y LA HIPOTENUSA','$'
 	msg_op_tan db 10,13, 'TANGENTE, FAVOR INGRESAR EL OPUESTO DEL ANGULO Y EL ADYACENTE','$'
-	msg_op_arcsin db 10,13, 'ARCSIN','$'
-	msg_op_arccos db 10,13, 'ARCCOS','$'
-	msg_op_arctan db 10,13, 'ARCTAN','$'
+	msg_op_csc db 10,13, 'COSECANTE','$'
+	msg_op_sec db 10,13, 'SECANTE','$'
+	msg_op_cot db 10,13, 'COTANGENTE','$'
 	
 	
 	
@@ -68,9 +68,9 @@
 	msg_sen db 10,13, 'SENO: = ','$'
 	msg_cos db 10,13, 'COSENO: = ','$'
 	msg_tan db 10,13, 'TANGENTE: = ','$'
-	msg_arcsin db 10,13, 'ARCSIN: = ','$'
-	msg_arccos db 10,13, 'ARCCOS:= ','$'
-	msg_arctan db 10,13, 'ARCTAN: = ','$'
+	msg_csc db 10,13, 'COSECANTE: = ','$'
+	msg_sec db 10,13, 'SECANTE:= ','$'
+	msg_cot db 10,13, 'COTANGENTE: = ','$'
     decenas db ?
     unidades db ?
 	decenasPorTen db ?
@@ -361,7 +361,7 @@ Menu:
 	imprimir mostrarMenu
 	pedirNum op_menu
 	mov al,op_menu
-	; Salto condicional jump equals opci�n n saltar si es igual a la opcion n
+	; Salto condicional jump equals opcion n saltar si es igual a la opcion n
 	cmp al,1
 	je Suma
 	cmp al,2
@@ -385,11 +385,11 @@ Menu:
 	cmp al,11
 	je Tangente
 	cmp al,12
-	je Arcsin
+	je Cosecante
 	cmp al,13
-	je Arccos
+	je Secante
 	cmp al,14
-	je Arctan
+	je Cotangente
 	cmp al,15
 	je Salir
 	jmp Menu ; Si es alguna otra opci�n, mostrar el menu de nuevo
@@ -482,24 +482,27 @@ Tangente:
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
-Arcsin:
-	imprimir msg_op_arcsin
-	pedirNum num1
-	operacionArcsin
+Cosecante:
+	imprimir msg_op_csc
+	pedirSenoCosTan msg_opuesto,num1
+	pedirSenoCosTan msg_hipotenusa,num2
+	operacionCosecante
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
-Arccos:
-	imprimir msg_op_arccos
-	pedirNum num1
-	operacionArccos
+Secante:
+	imprimir msg_op_sec
+	pedirSenoCosTan msg_adyacente,num1
+	pedirSenoCosTan msg_hipotenusa,num2
+	operacionSecante
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
-Arctan:
-	imprimir msg_op_arctan
-	pedirNum num1
-	operacionArctan
+Cotangente:
+	imprimir msg_op_cot
+	pedirSenoCosTan msg_opuesto,num1
+	pedirSenoCosTan msg_adyacente,num2
+	operacionCotangente
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
