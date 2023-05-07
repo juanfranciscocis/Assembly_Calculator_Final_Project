@@ -70,6 +70,9 @@
 	msg_arctan db 10,13, 'ARCTAN = ','$'
     decenas db ?
     unidades db ?
+	
+	potenciaVar db 1
+
 	decenasPorTen db ?
 	op_menu db ?
 	seno_res db ?
@@ -207,10 +210,68 @@ endm
 
 operacionPotencia macro ; Edwin
 		imprimir msg_pot
+        MOV cl, num2            ;Numero de ciclos
+        producto:
+			MOV al, num1 
+			MOV al, potenciaVar
+			MUL bl
+			MOV potenciaVar, al 
+			LOOP producto 
+    
+        MOV al, potenciaVar    ;Pone el valor final en AL
+        AAM                    ;Ajuste en Multiplicacion 
+        MOV num1, al
+        MOV num2, ah
+        
+        
+        MOV potenciaVar, 0001h ;Vuelve a poner el valor 
+        
+        int 21h  
 endm
 
 operacionRaiz macro ;Edwin
 		imprimir msg_raiz
+		MOV bl, num1
+		XOR cx, cx
+
+		calcular:
+			
+			MUL cx
+			MOV ax, cx
+			CMP ax, bx
+			JA salirMayor
+			JB menor
+			JC igual 
+
+		menor:
+			INC cx
+			MOV ax, cx
+			MUL cx
+			CMP ax, bx
+			JA salirMayor
+			JE igual
+			JB menor
+
+        salirMayor:
+            DEC cx
+            JMP igual
+            
+        igual: ;Resultado queda en cx
+            hlt
+            
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+        int 21h
 endm
 
 operacionSeno macro ;Juan
