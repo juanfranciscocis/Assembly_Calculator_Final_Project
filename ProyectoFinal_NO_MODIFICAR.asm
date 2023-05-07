@@ -231,6 +231,41 @@ endm
 
 operacionFactorial macro ;Randall
 
+        xor ax,ax
+        imprimir new_line
+        mov bl, num1   
+        mov al, 1
+		loopstart:      
+        mul bl      
+        dec bl      
+        cmp bl,0
+        
+        jne loopstart   
+         
+        aam 
+        mov decenas,ah
+        mov unidades,al  
+        add unidades,30h
+        mov al, ah
+        cmp al,0
+        jbe end
+        
+        add decenas,30h ;ajuste manual
+       
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        
+        end:
+        
+        mov ah,02h
+        mov dl,unidades                                                                         
+        int 21h
+        
+        
+
         
 
 endm
