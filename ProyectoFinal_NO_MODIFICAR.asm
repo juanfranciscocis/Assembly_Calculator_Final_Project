@@ -26,9 +26,9 @@
                 db '9. Seno' , 13,10
                 db '10. Coseno' , 13,10
                 db '11. Tangente' , 13,10
-                db '12. Arcsin' , 13,10
-                db '13. Arccos' , 13,10
-                db '14. Arctan' , 13,10
+                db '12. Cosecante' , 13,10
+                db '13. Secante' , 13,10
+                db '14. Cotangente' , 13,10
                 db '15. Salir',13,10,13,10
 				db 'Seleccione una Opcion -->$',13,10  
 				
@@ -42,17 +42,20 @@
 	msg_op_modulo db 10,13, 'MODULO','$'
 	msg_op_pot db 10,13, 'POTENCIA','$'
 	msg_op_raiz db 10,13, 'RAIZ','$'
-	msg_op_sen db 10,13, 'SENO','$'
-	msg_op_cos db 10,13, 'COSENO','$'
-	msg_op_tan db 10,13, 'TANGENTE','$'
-	msg_op_arcsin db 10,13, 'ARCSIN','$'
-	msg_op_arccos db 10,13, 'ARCCOS','$'
-	msg_op_arctan db 10,13, 'ARCTAN','$'
+	msg_op_sen db 10,13, 'SENO, FAVOR INGRESAR EL OPUESTO DEL ANGULO Y LA HIPOTENUSA','$'
+	msg_op_cos db 10,13, 'COSENO, FAVOR INGRESAR EL ADYACENTE DEL ANGULO Y LA HIPOTENUSA','$'
+	msg_op_tan db 10,13, 'TANGENTE, FAVOR INGRESAR EL OPUESTO DEL ANGULO Y EL ADYACENTE','$'
+	msg_op_csc db 10,13, 'COSECANTE','$'
+	msg_op_sec db 10,13, 'SECANTE','$'
+	msg_op_cot db 10,13, 'COTANGENTE','$'
 	
 	
 	
     num1 db ?
 	num2 db ?
+	msg_opuesto db 10,13, 'Opuesto: ','$'
+	msg_hipotenusa db 10,13, 'Hipotenusa: ','$'
+	msg_adyacente db 10,13, 'Adyacente: ','$'
     msg_num db 10,13,'Proporciona un numero: ', 	'$'
     msg_suma db 10,13,'Suma: = ',				'$'
 	msg_resta db 10,13,'Resta: = ',				'$'
@@ -65,14 +68,15 @@
 	msg_sen db 10,13, 'SENO: = ','$'
 	msg_cos db 10,13, 'COSENO: = ','$'
 	msg_tan db 10,13, 'TANGENTE: = ','$'
-	msg_arcsin db 10,13, 'ARCSIN: = ','$'
-	msg_arccos db 10,13, 'ARCCOS:= ','$'
-	msg_arctan db 10,13, 'ARCTAN = ','$'
+	msg_csc db 10,13, 'COSECANTE: = ','$'
+	msg_sec db 10,13, 'SECANTE:= ','$'
+	msg_cot db 10,13, 'COTANGENTE: = ','$'
     decenas db ?
     unidades db ?
 	decenasPorTen db ?
 	op_menu db ?
 	seno_res db ?
+	pul db ?
 ; MACROS
 
 ; Este macro imprime un mensaje
@@ -105,6 +109,34 @@ pedirNum MACRO dato
 	mov dato, al  ; Guarda el número en la variable data
 
 endm
+
+pedirSenoCosTan MACRO msg , dato
+
+	imprimir msg
+    ; Lee el primer número
+    mov ah, 01h   ; Función de entrada desde el teclado
+    int 21h       ; Llamada al servicio de interrupción de BIOS
+    sub al, 30h   ; Convierte el caracter ASCII en un número
+    mov decenas, al    ; Guarda el primer dígito en el registro BL
+
+    ; Lee el segundo número
+    mov ah, 01h   ; Función de entrada desde el teclado
+    int 21h       ; Llamada al servicio de interrupción de BIOS
+    sub al, 30h   ; Convierte el caracter ASCII en un número
+    mov unidades, al    ; Guarda el segundo dígito en el registro BH
+
+    ; Une los dos dígitos en un solo número
+	mov al, decenas    ; Mueve el primer dígito al registro AL
+	mov decenasPorTen, 10    ; Mueve el valor 10 al registro BL
+	mul decenasPorTen       
+	add al, unidades    ; Suma unidades a AL
+	mov dato, al  ; Guarda el número en la variable data
+
+
+
+endm 
+
+
 
 
 
@@ -211,48 +243,210 @@ endm
 
 operacionRaiz macro ;Edwin
 		imprimir msg_raiz
+		MOV bl, num1
+		XOR cl, cl
+
+		calcular:
+			
+			MUL cl
+			MOV al, cl
+			CMP al, bl
+			JA salirMayor
+			JB menor
+			JC igual 
+
+		menor:
+			INC cl
+			MOV al, cl
+			MUL cl
+			CMP al, bl
+			JA salirMayor
+			JE igual
+			JB menor
+
+        salirMayor:
+            DEC cl
+            JMP igual
+            
+        igual: ;Resultado queda en cx
+        
+
+
+		mov al, cl
+		aam
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+		int 21h
 endm
+
 
 operacionSeno macro ;Juan
 		imprimir msg_sen
-		; given num1 in degrees calculate sin(num1)
-		; using the Taylor series expansion
-		mov al, num1
-		mov bl, 180
-		div bl
-		mov bl, al
-		mov al, 180
-		mul bl
-		sub al, num1
-		mov bl, al
-		mov al, 180
-		mul bl
-		mov num1, al
 
-
+		xor ax,ax
+        mov al, num1
+        mov bl,num2
+        div bl
+        aam
+        
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+        int 21h
 endm
 
 operacionCoseno macro ; Juan
 		imprimir msg_cos
+
+		xor ax,ax
+        mov al, num1
+        mov bl,num2
+        div bl
+        aam
+        
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+
+
+
+
 endm
 
 operacionTangente macro ; Juan
 		imprimir msg_tan
+
+		xor ax,ax
+        mov al, num1
+        mov bl,num2
+        div bl
+        aam
+        
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+        int 21h
 endm
 
-operacionArcsin macro ; Daniela
-		imprimir msg_arcsin
+; MODIFICACION 1 ------------------------->
+operacionCosecante macro ;Daniela
+		imprimir msg_csc
+
+		xor ax, ax
+		mov al, num2
+		mov bl, num1
+		mov cl, 90
+		sub cl, bl
+		mov bl, cl
+		mov cl, 180
+		div bl
+		mov bl, 1
+		div bl
+		aam
+
+		mov decenas, ah
+		mov unidades, al
+
+		add decenas, 30h
+		add unidades, 30h
+		; IMPRESIÓN DE VALORES:
+		mov ah, 02h
+		mov dl, decenas
+		int 21h
+
+		mov ah, 02h
+		mov dl, unidades
+		int 21h
+	endm
+
+; MODIFICACION 2 ------------------------->
+operacionSecante macro ; Daniela
+	imprimir msg_sec
+
+	xor ax, ax
+	mov al, num1
+	mov bl, num2
+	div bl
+	aam
+
+	mov decenas, ah
+	mov unidades, al
+
+	add decenas, 30h
+	add unidades, 30h
+
+	; IMPRESION DE VALORES"
+	mov ah, 02h
+	mov dl, decenas
+	int 21h
+
+	mov ah, 02h
+	mov dl, unidades
+	int 21h
 
 endm
 
-operacionArccos macro ; Daniela
-		imprimir msg_arccos
+; MODIFICACION 3 ------------------------->
+operacionCotangente macro ; Daniela
+	imprimir msg_cot
 
-endm
-
-operacionArctan macro ; Daniela
-		imprimir msg_arctan
-
+	xor ax,ax
+	mov al, num2
+	mov bl,num1
+	div bl
+	aam
+	
+	mov decenas,ah
+	mov unidades,al
+	
+	add decenas,30h
+	add unidades,30h
+	; IMPRESION DE VALORES:
+	mov ah,02h
+	mov dl,decenas
+	int 21h
+	
+	mov ah,02h
+	mov dl,unidades
+	int 21h
 endm
 
 
@@ -303,11 +497,11 @@ Menu:
 	cmp al,11
 	je Tangente
 	cmp al,12
-	je Arcsin
+	je Cosecante
 	cmp al,13
-	je Arccos
+	je Secante
 	cmp al,14
-	je Arctan
+	je Cotangente
 	cmp al,15
 	je Salir
 	jmp Menu ; Si es alguna otra opci�n, mostrar el menu de nuevo
@@ -378,43 +572,49 @@ Raiz:
 	jmp Menu
 Seno:
 	imprimir msg_op_sen
-	pedirNum num1
+	pedirSenoCosTan msg_opuesto,num1
+	pedirSenoCosTan msg_hipotenusa,num2
 	operacionSeno
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
 Coseno:
 	imprimir msg_op_cos
-	pedirNum num1
+	pedirSenoCosTan msg_adyacente,num1
+	pedirSenoCosTan msg_hipotenusa,num2
 	operacionCoseno
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
 Tangente:
 	imprimir msg_op_tan
-	pedirNum num1
+	pedirSenoCosTan msg_opuesto,num1
+	pedirSenoCosTan msg_adyacente,num2
 	operacionTangente
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
-Arcsin:
-	imprimir msg_op_arcsin
-	pedirNum num1
-	operacionArcsin
+Cosecante:
+	imprimir msg_op_csc
+	pedirSenoCosTan msg_opuesto,num1
+	pedirSenoCosTan msg_hipotenusa,num2
+	operacionCosecante
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
-Arccos:
-	imprimir msg_op_arccos
-	pedirNum num1
-	operacionArccos
+Secante:
+	imprimir msg_op_sec
+	pedirSenoCosTan msg_adyacente,num1
+	pedirSenoCosTan msg_hipotenusa,num2
+	operacionSecante
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
-Arctan:
-	imprimir msg_op_arctan
-	pedirNum num1
-	operacionArctan
+Cotangente:
+	imprimir msg_op_cot
+	pedirSenoCosTan msg_opuesto,num1
+	pedirSenoCosTan msg_adyacente,num2
+	operacionCotangente
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
