@@ -26,9 +26,9 @@
                 db '9. Seno' , 13,10
                 db '10. Coseno' , 13,10
                 db '11. Tangente' , 13,10
-                db '12. Arcsin' , 13,10
-                db '13. Arccos' , 13,10
-                db '14. Arctan' , 13,10
+                db '12. Cosecante' , 13,10
+                db '13. Secante' , 13,10
+                db '14. Cotangente' , 13,10
                 db '15. Salir',13,10,13,10
 				db 'Seleccione una Opcion -->$',13,10  
 				
@@ -51,7 +51,7 @@
 	
 	
 	
-    num1 db ?
+        num1 db ?
 	num2 db ?
 	msg_opuesto db 10,13, 'Opuesto: ','$'
 	msg_hipotenusa db 10,13, 'Hipotenusa: ','$'
@@ -248,97 +248,98 @@ endm
 operacionSeno macro ;Juan
 		imprimir msg_sen
 
-		xor ax,ax
-        mov al, num1
-        mov bl,num2
-        div bl
-        aam
-        
-        mov decenas,ah
-        mov unidades,al
-        
-        add decenas,30h
-        add unidades,30h
-        ; imprimir valores
-        mov ah,02h
-        mov dl,decenas
-        int 21h
-        
-        mov ah,02h
-        mov dl,unidades
-        int 21h
 endm
 
 operacionCoseno macro ; Juan
 		imprimir msg_cos
-
-		xor ax,ax
-        mov al, num1
-        mov bl,num2
-        div bl
-        aam
-        
-        mov decenas,ah
-        mov unidades,al
-        
-        add decenas,30h
-        add unidades,30h
-        ; imprimir valores
-        mov ah,02h
-        mov dl,decenas
-        int 21h
-        
-        mov ah,02h
-        mov dl,unidades
-        int 21h
-
-
-
-
 endm
 
 operacionTangente macro ; Juan
 		imprimir msg_tan
-
-		xor ax,ax
-        mov al, num1
-        mov bl,num2
-        div bl
-        aam
-        
-        mov decenas,ah
-        mov unidades,al
-        
-        add decenas,30h
-        add unidades,30h
-        ; imprimir valores
-        mov ah,02h
-        mov dl,decenas
-        int 21h
-        
-        mov ah,02h
-        mov dl,unidades
-        int 21h
 endm
 
-operacionArcsin macro ; Daniela
-		imprimir msg_arcsin
+; MODIFICACION 1 ------------------------->
+operacionCosecante macro ;Daniela
+		imprimir msg_csc
+
+		xor ax, ax
+		mov al, num2
+		mov bl, num1
+		mov cl, 90
+		sub cl, bl
+		mov bl, cl
+		mov cl, 180
+		div bl
+		mov bl, 1
+		div bl
+		aam
+
+		mov decenas, ah
+		mov unidades, al
+
+		add decenas, 30h
+		add unidades, 30h
+		; IMPRESIÓN DE VALORES:
+		mov ah, 02h
+		mov dl, decenas
+		int 21h
+
+		mov ah, 02h
+		mov dl, unidades
+		int 21h
+	endm
+
+; MODIFICACION 2 ------------------------->
+operacionSecante macro ; Daniela
+	imprimir msg_sec
+
+	xor ax, ax
+	mov al, num1
+	mov bl, num2
+	div bl
+	aam
+
+	mov decenas, ah
+	mov unidades, al
+
+	add decenas, 30h
+	add unidades, 30h
+
+	; IMPRESION DE VALORES"
+	mov ah, 02h
+	mov dl, decenas
+	int 21h
+
+	mov ah, 02h
+	mov dl, unidades
+	int 21h
 
 endm
 
-operacionArccos macro ; Daniela
-		imprimir msg_arccos
+; MODIFICACION 3 ------------------------->
+operacionCotangente macro ; Daniela
+	imprimir msg_cot
 
+	xor ax,ax
+	mov al, num2
+	mov bl,num1
+	div bl
+	aam
+	
+	mov decenas,ah
+	mov unidades,al
+	
+	add decenas,30h
+	add unidades,30h
+	; IMPRESION DE VALORES:
+	mov ah,02h
+	mov dl,decenas
+	int 21h
+	
+	mov ah,02h
+	mov dl,unidades
+	int 21h
 endm
-
-operacionArctan macro ; Daniela
-		imprimir msg_arctan
-
-endm
-
-
-
-
 
 
 .code
