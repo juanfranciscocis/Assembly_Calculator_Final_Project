@@ -171,15 +171,88 @@ operacionMultiplicacion macro
         int 21h
         
         mov ah,02h
-        mov dl,unidades
+        mov dl,unidades                                                                         
         int 21h
 endm
+;COMMENT
+;operacionDivision macro
+	;	imprimir msg_div
+  ;      xor ax,ax
+   ;     mov al, num1
+    ;    mov bl,num2
+     ;   div bl
+      ;  aam
+       ; 
+        ;mov decenas,ah
+   ;     mov unidades,al
+    ;    
+     ;   add decenas,30h
+      ;  add unidades,30h
+        ; imprimir valores
+       ; mov ah,02h
+        ;mov dl,decenas
+;        int 21h
+ ;       
+  ;      mov ah,02h
+   ;     mov dl,unidades
+    ;    int 21h
+;endm
+
+;factorial
+operacionLogaritmo macro ;Randall 
+        xor ax,ax
+        imprimir new_line
+        mov bl, num1   ; move num1 to CL
+        mov al, 1      ; set AL to 1
+        loopstart:
+        mul bl      ; Multiply AL by CL
+        dec bl      ; Decrement CL
+        cmp bl,0
+        
+        jne loopstart   ; Jump to loopstart if CL is not zero
+         
+        aam 
+        mov decenas,ah
+        mov unidades,al  
+        add unidades,30h
+        mov al, ah
+        cmp al,0
+        jbe end
+        
+        add decenas,30h ;ajuste manual
+       
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        
+        end:
+        
+        mov ah,02h
+        mov dl,unidades                                                                         
+        int 21h
+        
+        
+endm
+
+        
+        
+;porcentaje        
 operacionDivision macro
 		imprimir msg_div
-        xor ax,ax
+        ;cuanto es porcentaje de num1 en num2
         mov al, num1
-        mov bl,num2
+
+        
+        mov bl, 100
+        mul bl
+
+
+        mov bl, num2
         div bl
+        
+        
         aam
         
         mov decenas,ah
@@ -195,14 +268,35 @@ operacionDivision macro
         mov ah,02h
         mov dl,unidades
         int 21h
-endm
-
-operacionLogaritmo macro ;Randall
-		imprimir msg_log
+    
+        
+        
+        
+       
 endm
 
 operacionModulo macro ;Randall
 		imprimir msg_modulo
+		xor ax,ax
+        mov al, num1
+        mov bl,num2
+        div bl
+        mov al,ah
+        aam
+        
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+        int 21h
 endm
 
 operacionPotencia macro ; Edwin
