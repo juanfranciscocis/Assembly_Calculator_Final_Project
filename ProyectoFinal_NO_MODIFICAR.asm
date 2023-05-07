@@ -29,7 +29,8 @@
                 db '12. Cosecante' , 13,10
                 db '13. Secante' , 13,10
                 db '14. Cotangente' , 13,10
-                db '15. Salir',13,10,13,10
+				db '15. Porcentaje', 13,10
+                db '16. Salir',13,10,13,10
 				db 'Seleccione una Opcion -->$',13,10  
 				
 	new_line db 10,13, " $"
@@ -48,6 +49,7 @@
 	msg_op_csc db 10,13, 'COSECANTE','$'
 	msg_op_sec db 10,13, 'SECANTE','$'
 	msg_op_cot db 10,13, 'COTANGENTE','$'
+	msg_op_porcen db 10,13, 'PORCENTAJE','$'
 	
 	
 	
@@ -71,6 +73,7 @@
 	msg_csc db 10,13, 'COSECANTE: = ','$'
 	msg_sec db 10,13, 'SECANTE:= ','$'
 	msg_cot db 10,13, 'COTANGENTE: = ','$'
+	msg_porcen db 10,13, 'PORCENTAJE: = ','$'
     decenas db ?
     unidades db ?
 	decenasPorTen db ?
@@ -272,6 +275,26 @@ endm
 
 operacionModulo macro ;Randall
 		imprimir msg_modulo
+		xor ax,ax
+        mov al, num1
+        mov bl,num2
+        div bl
+        mov al,ah
+        aam
+        
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+        int 21h
 endm
 
 operacionPotencia macro ; Edwin
@@ -483,6 +506,42 @@ operacionCotangente macro ; Daniela
 
 endm
 
+operacionPorcentaje macro
+	imprimir msg_porcen
+
+	    ;cuanto es porcentaje de num1 en num2
+        mov al, num1
+
+        
+        mov bl, 100
+        mul bl
+
+
+        mov bl, num2
+        div bl
+        
+        
+        aam
+        
+        mov decenas,ah
+        mov unidades,al
+        
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+    
+
+
+
+endm
+
 
 
 
@@ -537,6 +596,8 @@ Menu:
 	cmp al,14
 	je Cotangente
 	cmp al,15
+	je Porcentaje
+	cmp al,16
 	je Salir
 	jmp Menu ; Si es alguna otra opci�n, mostrar el menu de nuevo
 Salir:
@@ -550,7 +611,7 @@ Suma:
 	mov ah,01;pausa y captura de datos
 	int 21h
 	; cmp al,27 ; ASCII de ESC
-	jmp Menu ; usar je para validar que solo con ESC continue a menu, no olvides quitar el comentario de cmp jaja salu2
+	jmp Menu ; 
 Resta:
 	imprimir msg_op_resta
 	pedirNum num1
@@ -653,5 +714,15 @@ Cotangente:
 	mov ah,01; Pausar y pedir un nuevo caracter para continuar, puede ser ESC o cualquiera
 	int 21h
 	jmp Menu
+Porcentaje:
+	imprimir msg_op_porcen
+	pedirNum num1
+	pedirNum num2
+	operacionPorcentaje
+	mov ah,01;pausa y captura de datos
+	int 21h
+	; cmp al,27 ; ASCII de ESC
+	jmp Menu ;
+
 .exit
 end Inicio
