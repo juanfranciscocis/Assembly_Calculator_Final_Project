@@ -473,8 +473,8 @@ operacionCosecante macro ; Daniela
 	imprimir msg_csc
 
 	xor ax, ax
-	mov al, num1
-	mov bl, num2
+	mov al, num2
+	mov bl, num1
 	div bl
 	aam
 
@@ -500,8 +500,8 @@ operacionSecante macro ; Daniela
 	imprimir msg_sec
 
 	xor ax, ax
-	mov al, num1
-	mov bl, num2
+	mov al, num2
+	mov bl, num1
 	div bl
 	aam
 
@@ -527,8 +527,8 @@ operacionCotangente macro ; Daniela
 	imprimir msg_cot
 
 	xor ax, ax
-	mov al, num1
-	mov bl, num2
+	mov al, num2
+	mov bl, num1
 	div bl
 	aam
 
