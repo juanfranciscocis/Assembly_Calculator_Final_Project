@@ -15278,7 +15278,30 @@ result dw 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Multiplicaci%C3%B3n">Multiplicaci&#243;n<a class="anchor-link" href="#Multiplicaci%C3%B3n">&#182;</a></h4>
+<h4 id="Multiplicaci%C3%B3n">Multiplicaci&#243;n<a class="anchor-link" href="#Multiplicaci%C3%B3n">&#182;</a></h4><p>El proceso de la multiplicacion ya viene integrado dentro de las instrucciones de Assembly, está la podemor calcular al realizar la llamada mul.</p>
+<pre><code>    imprimir msg_multi
+        mov al,num1
+        mov bl,num2
+        mul bl
+        aam
+
+        mov decenas,ah
+        mov unidades,al
+
+        add decenas,30h ;ajuste manual
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+endm
+</code></pre>
+<p>En donde mul almacena el resultado de multiplicar num1 con num2.</p>
+
 </div>
 </div>
 </div>
@@ -15289,7 +15312,31 @@ result dw 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Divisi%C3%B3n">Divisi&#243;n<a class="anchor-link" href="#Divisi%C3%B3n">&#182;</a></h4>
+<h4 id="Divisi%C3%B3n">Divisi&#243;n<a class="anchor-link" href="#Divisi%C3%B3n">&#182;</a></h4><p>Igual que en el caso de la multiplicación, el proceso de la división ya viene integrado dentro de las instrucciones de Assembly y se realiza con div</p>
+<pre><code>    imprimir msg_div
+        xor ax,ax
+        mov al, num1
+        mov bl,num2
+        div bl
+        aam
+
+        mov decenas,ah
+        mov unidades,al
+
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+endm
+</code></pre>
+<p>div almacena el resultado de dividir num1 con num2 y el proceso de impresión es igual.</p>
+
 </div>
 </div>
 </div>
@@ -15300,7 +15347,12 @@ result dw 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Logaritmo-base-10">Logaritmo base 10<a class="anchor-link" href="#Logaritmo-base-10">&#182;</a></h4>
+<h4 id="Logaritmo-base-10">Logaritmo base 10<a class="anchor-link" href="#Logaritmo-base-10">&#182;</a></h4><p>El logaritmo de base 10 no fue realizado ni si quiera por aproximacion por varias limitaciones que se encontro al momento de realizarlo. Algunas de estas limitaciones fueron: basado en la serie de Taylor, la cual es muy compleja de implementar en Assembly, y no se encontro una forma de calcular el logaritmo de base 10 sin utilizar la serie de Taylor. Existe una manera de aproximar el valor del logartimo pero esta implica la utilizacion de numeros decimales que de igual manera no estan disponibles en la arquitectura de 16 bits de Assembly 8086.:
+Un ejemplo de esta aproximacion se puede utilizar en el log(25) = 1.39. Se obtiene este valor utilizando la formula $\frac{25}{10^n}$ donde n es dado por la cantidad de digitos que tiene  el numero empezando a contar desde 0. En este caso el numero 25 tiene 2 digitos por lo que n = 1.
+Seguido de esto se eleva este resultado $2.5^{10}$ y se cuenta la cantidad de digitos. $2.5^10 = 9536$. Este resultado tiene 4 digitos por lo tanto $n=n-1=3$ por lo que este es el segundo digito de la aproximacion.</p>
+<p>Este proceso puede ser repetido hasta que se obtenga la precision deseada.</p>
+<p>En el caso de Assembly 8086 no se puede utilizar este metodo ya que no se pueden utilizar numeros decimales. e incluso utilizando la propiedad de las potencias done $(a/b)^n = a^n/b^n$ no se puede obtener el resultado ya que muchas veces el valor de $a^n$ se tendria que elevar a 10 y este muchas veces es mayor que el valor maximo que se puede almacenar en un registro de 16 bits.</p>
+
 </div>
 </div>
 </div>
@@ -15311,7 +15363,32 @@ result dw 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h5 id="Modulo">Modulo<a class="anchor-link" href="#Modulo">&#182;</a></h5>
+<h5 id="Modulo">Modulo<a class="anchor-link" href="#Modulo">&#182;</a></h5><p>El proceso del modulo ya viene integrado dentro de las instrucciones de Assembly en la misma direccion de la division.</p>
+<pre><code>        imprimir msg_modulo
+    	xor ax,ax
+        mov al, num1
+        mov bl,num2
+        div bl
+        mov al,ah
+        aam
+
+        mov decenas,ah
+        mov unidades,al
+
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+endm
+</code></pre>
+<p>En esta el div almacena el residuo de la funcion o el modulo de la division el el register de ah, por lo cual se procede almacenar este valor en al para poder imprimirlo.</p>
+
 </div>
 </div>
 </div>
@@ -15322,7 +15399,46 @@ result dw 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Potencia">Potencia<a class="anchor-link" href="#Potencia">&#182;</a></h4>
+<h4 id="Factorial">Factorial<a class="anchor-link" href="#Factorial">&#182;</a></h4><p>Para realizar el factorial en Assembly 8086 se tiene que utilzar una forma de iteracion para poder realizar la multiplicacion de los numeros . En este caso se utilizo un ciclo inverso al original. Utilizando el numero deseado este se cargo al registro y se multiplico por los extremos y se procede a reducir el extremo por 1. Como ejemplo el numero 6
+$5! = 1*2*3*4*5*6 $ el codigo utilizado realiza las multiplicaciones por los extremos es decir $ 6*1= 6$ y luego se realiza $6*5=30$ y asi sucesivamente hasta llegar a 1. Utilizando un comparador para revisar si el extremo llego a 1 y si no repetir el proceso.</p>
+<pre><code>xor ax,ax
+        imprimir new_line
+        mov bl, num1
+        mov al, 1
+        mul bl
+        dec bl
+        cmp bl,0
+
+
+</code></pre>
+<p>Una vez calculado el factorial se procede a imprimirlo en pantalla, sin embargo aqui existe el siguiente problema. La precision de impresion es de 16 bits, por lo que si se desea imprimir un numero mayor a 16 bits se tendra un error. E inlcuso con numeros aceptados existe error por parte del metodo de impresion ya que repite el ultimo numero almacenado a pesar de estar divido en partes y utilizar el metodo ascii para imprimirlo.</p>
+<pre><code>       aam
+        mov decenas,ah
+        mov unidades,al
+        add unidades,30h
+        mov al, ah
+        cmp al,0
+        jbe end
+
+        add decenas,30h ;ajuste manual
+
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+
+
+        end:
+
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+
+
+endm
+</code></pre>
+<p>Incluso tratando de limitarlo por partes por si el resultado es menor que 10 no dio resultado, ya que el metodo de impresion en Emu8086 no es muy preciso.</p>
+
 </div>
 </div>
 </div>
@@ -15333,7 +15449,144 @@ result dw 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Raiz">Raiz<a class="anchor-link" href="#Raiz">&#182;</a></h4>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Porcentaje">Porcentaje<a class="anchor-link" href="#Porcentaje">&#182;</a></h3><p>Para realizar el porcentaje se utilizo la formula de porcentaje que es $\frac{a}{b}*100$. Sin embargo el proceso tuvo que modificarse ligeramtete multiplicando $a*100$ primero para evitar problemas con numeros decimales. Sin embargo el proceso retorna 0 para porcentajes muy pequenos debido a la falta de precision de los registros de 16 bits.</p>
+<pre><code>       imprimir msg_div
+        ;cuanto es porcentaje de num1 en num2
+        mov al, num1
+        mov bl, 100
+        mul bl
+        mov bl, num2
+        div bl
+        aam
+        mov decenas,ah
+        mov unidades,al
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+</code></pre>
+<p>Durante el proceso de esta funcion se pudo observar como la arquitectura limita muchas funciones comunes e incluso sensillas y como se debe circumventar estas para igualmente obtener el resultado deseado o al menos aproximado al correcto</p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Potencia">Potencia<a class="anchor-link" href="#Potencia">&#182;</a></h4><p>Para calcular la potencia de un numero se utilizo un un bucle para luego imprimir el resultado de la potencia en la salida.</p>
+<pre><code>        imprimir msg_pot
+        ;Potencia
+        MOV cl, num2            ;Numero de ciclos
+        loopstartP:
+            MOV AL, num1 
+            MOV BL, potenciaVar ;potenciaVar es una variable temporal para almacenar el resultado parcial de la potencia.
+            MUL BL
+            MOV potenciaVar, AL
+            dec cl 
+            cmp cl, 0
+            jne loopstartP 
+
+        MOV AL, potenciaVar    ;Pone el valor final en AL
+        AAM                    ;Ajuste en Multiplicacion 
+
+
+        mov decenas,ah
+        mov unidades,al
+
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+endm
+</code></pre>
+<p>Aqui se debe tener en cuenta que en esta ocasión en la vaiable mun1 se va a almacenar el número base de la potencia mientras que num2 debe contener el número de ciclos que se realizarán para calcular la potencia.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Raiz">Raiz<a class="anchor-link" href="#Raiz">&#182;</a></h4><p>Para calcular la raiz cuadrada de un numero en Assembly 8086 se procedio a realizar una serie de bucles para determinar la raiz entera de un numero y poder salir de los mismos.</p>
+<pre><code>        imprimir msg_raiz
+        MOV bl, num1
+        XOR cl, cl
+
+        calcular:
+                MUL cl
+                MOV al, cl
+                CMP al, bl
+                JA salirMayor
+                JB menor
+                JC igual 
+
+        menor:
+                INC cl
+                MOV al, cl
+                MUL cl
+                CMP al, bl
+                JA salirMayor
+                JE igual
+                JB menor
+
+        salirMayor:
+                DEC cl
+                JMP igual
+
+        igual: 
+
+        mov al, cl
+        aam
+
+        mov decenas,ah
+        mov unidades,al
+
+        add decenas,30h
+        add unidades,30h
+        ; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+endm
+</code></pre>
+<p>salirMayor: Si el resultado de la comparación anterior indica que al es mayor que bl, salta a la etiqueta salirMayor. Esto significa que se ha encontrado la raíz cuadrada entera y se debe salir del bucle.</p>
+<p>menor: Si el resultado de la comparación anterior indica que al es menor que bl, salta a la etiqueta menor. Esto significa que se debe incrementar el contador y continuar el bucle.</p>
+<p>igual: Si el resultado de la comparación anterior indica que hay un acarreo (carry), salta a la etiqueta igual. Esto también significa que se ha encontrado la raíz cuadrada entera y se debe salir del bucle.</p>
+
 </div>
 </div>
 </div>
@@ -15512,6 +15765,7 @@ endm
 <h4 id="Problemas-encontrados">Problemas encontrados<a class="anchor-link" href="#Problemas-encontrados">&#182;</a></h4><ul>
 <li>Debido al tiempo solo se pudo implementar operaciones con numeros desde el 0 al 99, y no se pudo implementar operaciones con numeros negativos.</li>
 <li>Lamentablemente debido a lo complejo que es el lenguaje de ensamblador, y a que no se contaba con librerias para realizar los calculos de las funciones trigonométricas, y como se menciono anteriormente, la serie de Taylor es muy compleja de implementar en Assembly 8086.</li>
+<li>Uno de los mayores problemas encontrados se dio con el manejo de la impresion, debido a que el emulador escogido para realizar el proyecto tenian fuertes limitaciones al momento de imprimir la pantalla en conjunto con una sintax diferentes a otras arquitecturas</li>
 </ul>
 
 </div>
@@ -15524,7 +15778,13 @@ endm
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="3.-Conclusiones">3. Conclusiones<a class="anchor-link" href="#3.-Conclusiones">&#182;</a></h3>
+<h3 id="3.-Conclusiones">3. Conclusiones<a class="anchor-link" href="#3.-Conclusiones">&#182;</a></h3><ul>
+<li>Una vez realizado proyecto se pueden obtener varias conlusiones del lenguaje de Assembly. Primariamente este es sumamente limitado por la arquitectura que se encuentra corriendo, en este caso el emulador que se utilizo, por lo que se debe tener en cuenta que no se puede utilizar cualquier instruccion. Muchas veces durante el proceso de investigacion se encontraban instruciones que no existian dentro de esta arquitectura.</li>
+<li>En conjunto con esto, este idioma debido a que es un lenguaje de bajo nivel es dificil de comprender y de implementar, especialmente en funciones que otros idiomas se toman como algo trivial, como lo es la impresion de un mensaje en pantalla. Que creo varios problemas en este proyecto</li>
+<li>Es por estas limitaciones que el idioma requiere de igual manera un alto nivel matematico y logico para poder realizar funciones de maneras mas abstractas como fue el caso del porcentaje que a pesar de solo cambiar de orden ya se tiene que pensar en como va implmentar la formula.</li>
+<li>A pesar de todas las limitaciones encontradas el idioma es sumamente eficiente y veloz, al momento de probarlo se puede ver que los calculos se realizan de manera casi instantanea, y que el programa no tiene ningun tipo de retraso al momento de realizar las operaciones</li>
+</ul>
+
 </div>
 </div>
 </div>
