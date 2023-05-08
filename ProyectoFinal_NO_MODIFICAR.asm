@@ -176,8 +176,7 @@ operacionResta macro
 		imprimir msg_resta
         xor ax,ax
         mov al, num1
-        mov bl,num2
-        div bl
+		sub al,num2
         aam
         
         mov decenas,ah
