@@ -15110,19 +15110,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>** Hola chicos aqui es donde vamos a armar el sitio web de GitHub Pages, este es un ipynb que solo debe tener markdown, una vez lo exportamos a html y lo renombramos como index.html github directamente lo va a reconocer como la pagina principal del sitio web y lo va a mostrar en la direccion <a href="https://juanfranciscocis.github.io/Assembly_Calculator_Final_Project/">https://juanfranciscocis.github.io/Assembly_Calculator_Final_Project/</a> **</p>
-
-</div>
-</div>
-</div>
-</div>
-<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Assembly_Calculator_Final_Project">Assembly_Calculator_Final_Project<a class="anchor-link" href="#Assembly_Calculator_Final_Project">&#182;</a></h1><h3 id="Edwin-Jaramillo">Edwin Jaramillo<a class="anchor-link" href="#Edwin-Jaramillo">&#182;</a></h3><h3 id="Juan-Francisco-Cisneros">Juan Francisco Cisneros<a class="anchor-link" href="#Juan-Francisco-Cisneros">&#182;</a></h3><h3 id="Randall-Mencias">Randall Mencias<a class="anchor-link" href="#Randall-Mencias">&#182;</a></h3><h3 id="Daniela-Gomez">Daniela Gomez<a class="anchor-link" href="#Daniela-Gomez">&#182;</a></h3>
+<h1 id="Assembly_Calculator_Final_Project">Assembly_Calculator_Final_Project<a class="anchor-link" href="#Assembly_Calculator_Final_Project">&#182;</a></h1><h3 id="Edwin-Jaramillo">Edwin Jaramillo<a class="anchor-link" href="#Edwin-Jaramillo">&#182;</a></h3><h3 id="Juan-Francisco-Cisneros">Juan Francisco Cisneros<a class="anchor-link" href="#Juan-Francisco-Cisneros">&#182;</a></h3><h3 id="Randall-Mencias">Randall Mencias<a class="anchor-link" href="#Randall-Mencias">&#182;</a></h3><h3 id="Daniela-Jimenez">Daniela Jimenez<a class="anchor-link" href="#Daniela-Jimenez">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -15179,7 +15167,7 @@ sistemas y aplicaciones de software.</p>
 y funciones trigonométricas que incluyen seno, coseno, tangente y sus inversas. La calculadora
 permitirá al usuario ingresar los datos mediante el teclado y mostrar el resultado en pantalla. El 
 proyecto incluirá pruebas unitarias para verificar el funcionamiento del código y se llevará a 
-cabo utilizando programas, como Mars MIPS Simulator, para simular la ejecución de código.</p>
+cabo utilizando programas, como EMU8086, para simular la ejecución de código.</p>
 
 </div>
 </div>
@@ -15267,6 +15255,64 @@ result dw 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li>Luego de declarar las variables necesarias en el programa para cada operacion e ingreso de usuario, para el calculo de la suma entre 2 numeros, se implemento una funcion macro que realiza la operación de adicion de dos números enteros.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Como tal, la macro inicia imprimiendo un mensaje &quot;msg_suma&quot; en la pantalla para indicar que se va a realizar la operación de suma. Luego, carga el primer número en el registro AL y suma el segundo número al registro AL utilizando la instrucción &quot;add al,num2&quot;:</p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<pre><code>operacionSuma macro
+    	imprimir msg_suma
+        mov al,num1
+        add al,num2
+        aam
+        mov decenas,ah
+        mov unidades,al
+        add decenas,30h ;ajuste manual
+    	add unidades,30h
+    	; imprimir valores
+        mov ah,02h
+        mov dl,decenas
+        int 21h
+        mov ah,02h
+        mov dl,unidades
+        int 21h
+endm
+</code></pre>
+<ul>
+<li><strong>En resumen:</strong> Esta macro realiza la suma de dos números de un dígito y muestra el resultado en la pantalla como caracteres ASCII.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="Resta">Resta<a class="anchor-link" href="#Resta">&#182;</a></h4>
 </div>
 </div>
@@ -15278,29 +15324,9 @@ result dw 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Multiplicaci%C3%B3n">Multiplicaci&#243;n<a class="anchor-link" href="#Multiplicaci%C3%B3n">&#182;</a></h4><p>El proceso de la multiplicacion ya viene integrado dentro de las instrucciones de Assembly, está la podemor calcular al realizar la llamada mul.</p>
-<pre><code>    imprimir msg_multi
-        mov al,num1
-        mov bl,num2
-        mul bl
-        aam
-
-        mov decenas,ah
-        mov unidades,al
-
-        add decenas,30h ;ajuste manual
-        add unidades,30h
-        ; imprimir valores
-        mov ah,02h
-        mov dl,decenas
-        int 21h
-
-        mov ah,02h
-        mov dl,unidades
-        int 21h
-endm
-</code></pre>
-<p>En donde mul almacena el resultado de multiplicar num1 con num2.</p>
+<ul>
+<li>Para el calculo de la resta entre 2 numeros, tambien se implemento otra funcion macro que realiza la operación de sustraccion de dos números enteros.</li>
+</ul>
 
 </div>
 </div>
@@ -15312,12 +15338,23 @@ endm
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Divisi%C3%B3n">Divisi&#243;n<a class="anchor-link" href="#Divisi%C3%B3n">&#182;</a></h4><p>Igual que en el caso de la multiplicación, el proceso de la división ya viene integrado dentro de las instrucciones de Assembly y se realiza con div</p>
-<pre><code>    imprimir msg_div
+<p>Aqui, la macro comienza imprimiendo un mensaje que indica que se está realizando una resta. Luego, utiliza la instrucción &quot;xor ax,ax&quot; para limpiar el registro AX, y mueve el valor de num1 al registro AL:</p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<pre><code>operacionResta macro
+    	imprimir msg_resta
         xor ax,ax
         mov al, num1
-        mov bl,num2
-        div bl
+    	sub al,num2
         aam
 
         mov decenas,ah
@@ -15335,8 +15372,62 @@ endm
         int 21h
 endm
 </code></pre>
-<p>div almacena el resultado de dividir num1 con num2 y el proceso de impresión es igual.</p>
+<ul>
+<li><strong>En resumen:</strong> Este código define una macro que realiza una resta entre dos números y muestra el resultado por pantalla en forma de caracteres ASCII como se hizo en el caso de la operacion de suma &quot;operacionSuma&quot; previamente.</li>
+</ul>
 
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><strong><em>POR TANTO:</em></strong></p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li><p>Para hacer una <strong>suma</strong>, se deben cargar los operandos en registros y luego sumarlos utilizando la instrucción &quot;add&quot;. El resultado se guarda en otro registro.</p>
+</li>
+<li><p>Para hacer una <strong>resta</strong>, se deben cargar los operandos en registros y luego restarlos utilizando la instrucción &quot;sub&quot;. El resultado se guarda en otro registro.</p>
+</li>
+</ul>
+<p>... Por otro lado es <strong><em>importante</em></strong> tener en cuenta el tamaño de los operandos para realizar las operaciones correctamente, ya que existen instrucciones específicas para cada tamaño de operando. Además, tenemos siempre en cuenta que dependiendo del lenguaje de ensamblador que se esté utilizando, pueden variar los nombres de los registros y la sintaxis de las instrucciones.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Multiplicaci%C3%B3n">Multiplicaci&#243;n<a class="anchor-link" href="#Multiplicaci%C3%B3n">&#182;</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Divisi%C3%B3n">Divisi&#243;n<a class="anchor-link" href="#Divisi%C3%B3n">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -15460,7 +15551,7 @@ endm
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Porcentaje">Porcentaje<a class="anchor-link" href="#Porcentaje">&#182;</a></h3><p>Para realizar el porcentaje se utilizo la formula de porcentaje que es $\frac{a}{b}*100$. Sin embargo el proceso tuvo que modificarse ligeramtete multiplicando $a*100$ primero para evitar problemas con numeros decimales. Sin embargo el proceso retorna 0 para porcentajes muy pequenos debido a la falta de precision de los registros de 16 bits.</p>
+<h3 id="Porcentaje-/-Modulo">Porcentaje / Modulo<a class="anchor-link" href="#Porcentaje-/-Modulo">&#182;</a></h3><p>Para realizar el porcentaje se utilizo la formula de porcentaje que es $\frac{a}{b}*100$. Sin embargo el proceso tuvo que modificarse ligeramente multiplicando $a*100$ primero para evitar problemas con numeros decimales. Sin embargo el proceso retorna 0 para porcentajes muy pequenos debido a la falta de precision de los registros de 16 bits.</p>
 <pre><code>       imprimir msg_div
         ;cuanto es porcentaje de num1 en num2
         mov al, num1
@@ -15493,40 +15584,7 @@ endm
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Potencia">Potencia<a class="anchor-link" href="#Potencia">&#182;</a></h4><p>Para calcular la potencia de un numero se utilizo un un bucle para luego imprimir el resultado de la potencia en la salida.</p>
-<pre><code>        imprimir msg_pot
-        ;Potencia
-        MOV cl, num2            ;Numero de ciclos
-        loopstartP:
-            MOV AL, num1 
-            MOV BL, potenciaVar ;potenciaVar es una variable temporal para almacenar el resultado parcial de la potencia.
-            MUL BL
-            MOV potenciaVar, AL
-            dec cl 
-            cmp cl, 0
-            jne loopstartP 
-
-        MOV AL, potenciaVar    ;Pone el valor final en AL
-        AAM                    ;Ajuste en Multiplicacion 
-
-
-        mov decenas,ah
-        mov unidades,al
-
-        add decenas,30h
-        add unidades,30h
-        ; imprimir valores
-        mov ah,02h
-        mov dl,decenas
-        int 21h
-
-        mov ah,02h
-        mov dl,unidades
-        int 21h
-endm
-</code></pre>
-<p>Aqui se debe tener en cuenta que en esta ocasión en la vaiable mun1 se va a almacenar el número base de la potencia mientras que num2 debe contener el número de ciclos que se realizarán para calcular la potencia.</p>
-
+<h4 id="Potencia">Potencia<a class="anchor-link" href="#Potencia">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -15537,56 +15595,7 @@ endm
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Raiz">Raiz<a class="anchor-link" href="#Raiz">&#182;</a></h4><p>Para calcular la raiz cuadrada de un numero en Assembly 8086 se procedio a realizar una serie de bucles para determinar la raiz entera de un numero y poder salir de los mismos.</p>
-<pre><code>        imprimir msg_raiz
-        MOV bl, num1
-        XOR cl, cl
-
-        calcular:
-                MUL cl
-                MOV al, cl
-                CMP al, bl
-                JA salirMayor
-                JB menor
-                JC igual 
-
-        menor:
-                INC cl
-                MOV al, cl
-                MUL cl
-                CMP al, bl
-                JA salirMayor
-                JE igual
-                JB menor
-
-        salirMayor:
-                DEC cl
-                JMP igual
-
-        igual: 
-
-        mov al, cl
-        aam
-
-        mov decenas,ah
-        mov unidades,al
-
-        add decenas,30h
-        add unidades,30h
-        ; imprimir valores
-        mov ah,02h
-        mov dl,decenas
-        int 21h
-
-        mov ah,02h
-        mov dl,unidades
-        int 21h
-endm
-</code></pre>
-<p>salirMayor: Si el resultado de la comparación anterior indica que al es mayor que bl, salta a la etiqueta salirMayor. Esto significa que se ha encontrado la raíz cuadrada entera y se debe salir del bucle.</p>
-<p>menor: Si el resultado de la comparación anterior indica que al es menor que bl, salta a la etiqueta menor. Esto significa que se debe incrementar el contador y continuar el bucle.</p>
-<p>igual: Si el resultado de la comparación anterior indica que hay un acarreo (carry), salta a la etiqueta igual. Esto también significa que se ha encontrado la raíz cuadrada entera y se debe salir del bucle.</p>
-
+<h4 id="Raiz">Raiz<a class="anchor-link" href="#Raiz">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -15751,7 +15760,179 @@ endm
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h5 id="Inversa-de-Seno,-Coseno-y-Tangente">Inversa de Seno, Coseno y Tangente<a class="anchor-link" href="#Inversa-de-Seno,-Coseno-y-Tangente">&#182;</a></h5>
+<h5 id="Inversas-de-Seno,-Coseno-y-Tangente:-Cosecante,-Secante-y-Cotangente">Inversas de Seno, Coseno y Tangente: Cosecante, Secante y Cotangente<a class="anchor-link" href="#Inversas-de-Seno,-Coseno-y-Tangente:-Cosecante,-Secante-y-Cotangente">&#182;</a></h5>
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li>Al igual que para el calculo de las funciones trigonometricas simples, para calcular las inversas del seno, coseno y tangente en la forma de arcoseno/arcocoseno/arcotangente era necesario implementar las series de Taylor (dado que se necesitaba obtener una representación polinómica de estas funciones). Debido a esta razon, se calcularon las razones trigonometricas simples inversas cosecante/secante/cotangente.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><strong><em>IMPLEMENTACION:</em></strong></p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Siguiendo la misma logica de las funciones trigonometricas principales, se escribio el siguiente codigo de Assembly en EMU8086 para calcular sus inversas al alternar el dividendo y divisor dados por el usuario:</p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><em>FUNCION SENO -&gt; INVERSA: COSECANTE</em></p>
+<pre><code>operacionCosecante macro ; FUNCION PARA LA INVERSA DE LA FUNCION: SENO
+    imprimir msg_csc
+
+    xor ax, ax
+    ; ALTERNAR DIVIDENDO POR DIVISOR Y VICEVERSA:
+    mov al, num2 ; num 1
+    mov bl, num1 ; num 2
+    div bl
+    aam
+
+    mov decenas, ah
+    mov unidades, al
+
+    add decenas, 30h
+    add unidades, 30h
+
+    ; IMPRESION DE VALORES:
+    mov ah, 02h
+    mov dl, decenas
+    int 21h
+
+    mov ah, 02h
+    mov dl, unidades
+    int 21h
+
+endm
+</code></pre>
+<p><em>FUNCION COSENO -&gt; INVERSA: SECANTE</em></p>
+<pre><code>operacionSecante macro ; FUNCION PARA LA INVERSA DE LA FUNCION: COSENO
+    imprimir msg_sec
+
+    xor ax, ax
+    ; ALTERNAR DIVIDENDO POR DIVISOR Y VICEVERSA:
+    mov al, num2 ; num 1
+    mov bl, num1 ; num 2
+    div bl
+    aam
+
+    mov decenas, ah
+    mov unidades, al
+
+    add decenas, 30h
+    add unidades, 30h
+
+    ; IMPRESION DE VALORES:
+    mov ah, 02h
+    mov dl, decenas
+    int 21h
+
+    mov ah, 02h
+    mov dl, unidades
+    int 21h
+
+endm
+</code></pre>
+<p><em>FUNCION TANGENTE -&gt; INVERSA: COTANGENTE</em></p>
+<pre><code>operacionCotangente macro ; FUNCION PARA LA INVERSA DE LA FUNCION: TANGENTE
+    imprimir msg_cot
+
+    xor ax, ax
+    ; ALTERNAR DIVIDENDO POR DIVISOR Y VICEVERSA:
+    mov al, num2 ; num 1
+    mov bl, num1 ; num 2
+    div bl
+    aam
+
+    mov decenas, ah
+    mov unidades, al
+
+    add decenas, 30h
+    add unidades, 30h
+
+    ; IMPRESION DE VALORES:
+    mov ah, 02h
+    mov dl, decenas
+    int 21h
+
+    mov ah, 02h
+    mov dl, unidades
+    int 21h
+
+endm
+</code></pre>
+<ul>
+<li>Por ultimo, cabe recalcar que los 2 valores necesario para calcular cada una de las funciones inversas son los mismos que se piden para el calculo de las funciones trigonometricas normales:</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><strong>COSECANTE:</strong> Cateto Opuesto e Hipotenusa</p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><strong>SECANTE:</strong> Cateto Adyacente e Hipotenusa</p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><strong>COTANGENTE:</strong> Cateto Opuesto y Cateto Adyacente</p>
+
 </div>
 </div>
 </div>
@@ -15764,9 +15945,47 @@ endm
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="Problemas-encontrados">Problemas encontrados<a class="anchor-link" href="#Problemas-encontrados">&#182;</a></h4><ul>
 <li>Debido al tiempo solo se pudo implementar operaciones con numeros desde el 0 al 99, y no se pudo implementar operaciones con numeros negativos.</li>
-<li>Lamentablemente debido a lo complejo que es el lenguaje de ensamblador, y a que no se contaba con librerias para realizar los calculos de las funciones trigonométricas, y como se menciono anteriormente, la serie de Taylor es muy compleja de implementar en Assembly 8086.</li>
+<li>Debido a la complejidad del lenguaje ensamblador, y a que no se contaba con librerias para realizar los calculos de las funciones trigonométricas como se menciono anteriormente, las serie de Taylor conllevaban gran complejidad para implementarlas en Assembly 8086.</li>
 <li>Uno de los mayores problemas encontrados se dio con el manejo de la impresion, debido a que el emulador escogido para realizar el proyecto tenian fuertes limitaciones al momento de imprimir la pantalla en conjunto con una sintax diferentes a otras arquitecturas</li>
 </ul>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li>En algunos casos, se vio que si habia la posibilidad de obtener algun resultado de una operacion en notacion decimal, el manejo de cada una de las cifras decimales (en Assembly) depende del conjunto de instrucciones y características específicas del microprocesador o microcontrolador que se esté utilizando y en general, la mayoría de los microprocesadores/microcontroladores no tienen instrucciones específicas para manejar números decimales.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><em><em>Por esto, una forma común de manejar decimales en lenguaje ensamblador es utilizar números en coma fija:</em></em></p>
+
+</div>
+</div>
+</div>
+</div>
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><strong>EJEMPLO:</strong> Si se establece que la posición del punto decimal es después de los dos primeros dígitos, el número entero 12345 se podria interpretar como el decimal 123.45.</p>
 
 </div>
 </div>
@@ -15782,7 +16001,7 @@ endm
 <li>Una vez realizado proyecto se pueden obtener varias conlusiones del lenguaje de Assembly. Primariamente este es sumamente limitado por la arquitectura que se encuentra corriendo, en este caso el emulador que se utilizo, por lo que se debe tener en cuenta que no se puede utilizar cualquier instruccion. Muchas veces durante el proceso de investigacion se encontraban instruciones que no existian dentro de esta arquitectura.</li>
 <li>En conjunto con esto, este idioma debido a que es un lenguaje de bajo nivel es dificil de comprender y de implementar, especialmente en funciones que otros idiomas se toman como algo trivial, como lo es la impresion de un mensaje en pantalla. Que creo varios problemas en este proyecto</li>
 <li>Es por estas limitaciones que el idioma requiere de igual manera un alto nivel matematico y logico para poder realizar funciones de maneras mas abstractas como fue el caso del porcentaje que a pesar de solo cambiar de orden ya se tiene que pensar en como va implmentar la formula.</li>
-<li>A pesar de todas las limitaciones encontradas el idioma es sumamente eficiente y veloz, al momento de probarlo se puede ver que los calculos se realizan de manera casi instantanea, y que el programa no tiene ningun tipo de retraso al momento de realizar las operaciones</li>
+<li>A pesar de todas las limitaciones encontradas el idioma es sumamente eficiente y veloz, al momento de probarlo se puede ver que los calculos se realizan de manera casi instantanea, y que el programa no tiene tipos de retraso graves al momento de realizar las operaciones</li>
 </ul>
 
 </div>
