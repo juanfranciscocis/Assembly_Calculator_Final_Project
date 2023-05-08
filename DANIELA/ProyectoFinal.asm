@@ -259,43 +259,12 @@ operacionTangente macro ; Juan
 endm
 
 ; MODIFICACION 1 ------------------------->
-operacionCosecante macro ;Daniela
-		imprimir msg_csc
-
-		xor ax, ax
-		mov al, num2
-		mov bl, num1
-		mov cl, 90
-		sub cl, bl
-		mov bl, cl
-		mov cl, 180
-		div bl
-		mov bl, 1
-		div bl
-		aam
-
-		mov decenas, ah
-		mov unidades, al
-
-		add decenas, 30h
-		add unidades, 30h
-		; IMPRESIÓN DE VALORES:
-		mov ah, 02h
-		mov dl, decenas
-		int 21h
-
-		mov ah, 02h
-		mov dl, unidades
-		int 21h
-	endm
-
-; MODIFICACION 2 ------------------------->
-operacionSecante macro ; Daniela
-	imprimir msg_sec
+operacionCosecante macro ; Daniela
+	imprimir msg_csc
 
 	xor ax, ax
-	mov al, num2
-	mov bl, num1
+	mov al, num2 ; num 1
+	mov bl, num1 ; num 2
 	div bl
 	aam
 
@@ -305,7 +274,34 @@ operacionSecante macro ; Daniela
 	add decenas, 30h
 	add unidades, 30h
 
-	; IMPRESION DE VALORES"
+	; IMPRESION DE VALORES:
+	mov ah, 02h
+	mov dl, decenas
+	int 21h
+
+	mov ah, 02h
+	mov dl, unidades
+	int 21h
+
+endm
+
+; MODIFICACION 2 ------------------------->
+operacionSecante macro ; Daniela
+	imprimir msg_sec
+
+	xor ax, ax
+	mov al, num2 ; num 1
+	mov bl, num1 ; num 2
+	div bl
+	aam
+
+	mov decenas, ah
+	mov unidades, al
+
+	add decenas, 30h
+	add unidades, 30h
+
+	; IMPRESION DE VALORES:
 	mov ah, 02h
 	mov dl, decenas
 	int 21h
@@ -320,25 +316,27 @@ endm
 operacionCotangente macro ; Daniela
 	imprimir msg_cot
 
-	xor ax,ax
-	mov al, num2
-	mov bl,num1
+	xor ax, ax
+	mov al, num2 ; num 1
+	mov bl, num1 ; num 2
 	div bl
 	aam
-	
-	mov decenas,ah
-	mov unidades,al
-	
-	add decenas,30h
-	add unidades,30h
+
+	mov decenas, ah
+	mov unidades, al
+
+	add decenas, 30h
+	add unidades, 30h
+
 	; IMPRESION DE VALORES:
-	mov ah,02h
-	mov dl,decenas
+	mov ah, 02h
+	mov dl, decenas
 	int 21h
-	
-	mov ah,02h
-	mov dl,unidades
+
+	mov ah, 02h
+	mov dl, unidades
 	int 21h
+
 endm
 
 
